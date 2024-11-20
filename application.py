@@ -1,13 +1,20 @@
 from flask import Flask,request,render_template
 import numpy as np
+import pickle
+import os
 import pandas as pd
 
 from sklearn.preprocessing import StandardScaler
 from src.pipelines.prediction_pipeline import CustomData,PredictPipeline
 
-application=Flask(__name__)
+application = Flask(__name__)  # Create the Flask application
+app = application 
 
-app=application
+# Load the model from the artifacts folder
+current_dir = os.path.dirname(os.path.abspath(__file__))  # Current directory of the script
+model_path = os.path.join(current_dir, 'artifacts', 'model.pkl')  # Path to model.pkl
+with open(model_path, 'rb') as f:
+    model = pickle.load(f)
 
 ## Route for a home page
 
@@ -43,3 +50,7 @@ def predict_datapoint():
 
 if __name__=="__main__":
     app.run(host="0.0.0.0")        
+    
+    
+    
+    
